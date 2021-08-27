@@ -30,7 +30,7 @@ const findLyrics = async (query) => {
   if (!song) return;
   const html = await (await fetch(song.url, reqOpt)).text();
   var lyrics = load(html)(".lyrics").text().trim();
-  if (lyrics) {
+  if (lyrics || typeof lyrics !== 'undefined') {
     return lyrics
   } else {
     try {
@@ -69,6 +69,7 @@ const findLyrics = async (query) => {
     for (var i = 0; i < split.length; i++) {
       final = `${final}${split[i]}\n`;
     }
+    if (typeof final == 'undefined') return false;
     return final.trim() || false; // Return false if no lyrics were found
   }
 
