@@ -11,5 +11,10 @@ npm i @j0r6it0/lyricsfinder
 ```js
 const findLyrics = require('@j0r6it0/lyricsfinder');
 
+
 const lyrics = await findLyrics("Alan Walker Alone");
+
+if (lyrics == false) return console.log("Lyrics not found");
+
+console.log(lyrics);
 ```
