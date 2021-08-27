@@ -21,6 +21,7 @@ const search = (query) => {
 
 const findLyrics = async (query) => {
   query = query
+    .toLowerCase()
     .replace(new RegExp(/((\[|\()(?!.*?(remix|edit)).*?(\]|\))|\/+|-+| x |,|"|video oficial|five nights at freddy's (3|4) song| ft.?|\|+|yhlqmdlg|x100pre|prod. afro bros & jeon)/, 'g'), '')
     .replace(new RegExp(/  +/, 'g'), ' ')
 
