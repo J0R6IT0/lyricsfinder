@@ -1,7 +1,7 @@
 {
   "name": "@j0r6it0/lyricsfinder",
-  "version": "1.0.2",
-  "description": "Find lyrics of a song in Genius and Google.",
+  "version": "1.0.3",
+  "description": "Find the lyrics of a song in Genius and Google.",
   "main": "index.js",
   "author": "j0r6it0",
   "license": "ISC",
