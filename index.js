@@ -25,54 +25,50 @@ const findLyrics = async (query) => {
     .replace(new RegExp(/((\[|\()(?!.*?(remix|edit)).*?(\]|\))|\/+|-+| x |,|"|video oficial|five nights at freddy's (3|4) song| ft.?|\|+|yhlqmdlg|x100pre|prod. afro bros & jeon)/, 'g'), '')
     .replace(new RegExp(/  +/, 'g'), ' ')
 
-  if (!query || typeof query !== "string") return;
+  if (!query || typeof query !== "string") return false;
   const song = await search(query);
-  if (!song) return;
-  const html = await (await fetch(song.url, reqOpt)).text();
-  var lyrics = load(html)(".lyrics").text().trim();
-  if (lyrics || typeof lyrics !== 'undefined') {
-    return lyrics
-  } else {
+  if (song) {
+    const html = await (await fetch(song.url, reqOpt)).text();
+    var lyrics = load(html)(".lyrics").text().trim();
+    if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) return lyrics;
+  }
+  try {
+    lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}+lyrics`);
+    lyrics = await lyrics.textConverted();
+    [, lyrics] = lyrics.split(delimiter1);
+    [lyrics] = lyrics.split(delimiter2);
+  } catch (e) {
     try {
-      lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}+lyrics`);
+      lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}+song+lyrics`);
       lyrics = await lyrics.textConverted();
       [, lyrics] = lyrics.split(delimiter1);
       [lyrics] = lyrics.split(delimiter2);
-    } catch (e) {
-      console.log(e);
+    } catch {
       try {
-        lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}+song+lyrics`);
+        lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}+song`);
         lyrics = await lyrics.textConverted();
         [, lyrics] = lyrics.split(delimiter1);
         [lyrics] = lyrics.split(delimiter2);
       } catch {
         try {
-          lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}+song`);
+          lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}`);
           lyrics = await lyrics.textConverted();
           [, lyrics] = lyrics.split(delimiter1);
           [lyrics] = lyrics.split(delimiter2);
         } catch {
-          try {
-            lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}`);
-            lyrics = await lyrics.textConverted(); // Convert to text
-            [, lyrics] = lyrics.split(delimiter1); // Split it by the first delimiter
-            [lyrics] = lyrics.split(delimiter2); // Split it by the second delimiter
-          } catch {
-            lyrics = ''; // Give up, couldn't find lyrics
-          }
+          return false;
         }
       }
     }
-
-    const split = lyrics.split('\n');
-    var final = '';
-    for (var i = 0; i < split.length; i++) {
-      final = `${final}${split[i]}\n`;
-    }
-    if (typeof final == 'undefined') return false;
-    return final.trim() || false; // Return false if no lyrics were found
   }
 
+  const split = lyrics.split('\n');
+  var final = '';
+  for (var i = 0; i < split.length; i++) {
+    final = `${final}${split[i]}\n`;
+  }
+  if (typeof final == 'undefined' || final.length < 5) return false;
+  return final.trim() || false; // Return false if no lyrics were found
 }
 
 module.exports = findLyrics;

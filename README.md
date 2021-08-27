@@ -1,7 +1,7 @@
 
 # @j0r6it0/lyricsfinder
 
-A simple module to get the lyrics of a song. It uses Genius as the main option and falls back to Google if no song is found. If nothing is found, it returns ```false```.
+A simple module to get the lyrics of a song. It uses Genius as the main option and falls back to Google if no song is found. If nothing is found, it returns ```false```. Song titles are automatically 'cleaned' for a more reliable search. ("Passenger | Let Her Go (Official Video)" will be transformed to "passenger let her go").
 
 ## Install
 ```sh
