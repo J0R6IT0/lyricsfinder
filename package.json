@@ -1,0 +1,28 @@
+{
+  "name": "@j0r6it0/lyricsfinder",
+  "version": "1.0.2",
+  "description": "Find lyrics of a song in Genius and Google.",
+  "main": "index.js",
+  "author": "j0r6it0",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "node-fetch": "^2.6.1",
+    "encoding": "^0.1.13"
+  },
+  "keywords": [
+    "genius",
+    "song",
+    "music",
+    "lyrics",
+    "find",
+    "search",
+    "discord",
+    "bot",
+    "scraper"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/J0R6IT0/lyricsfinder.git"
+  }
+}
