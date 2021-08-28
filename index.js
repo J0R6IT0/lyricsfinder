@@ -22,7 +22,7 @@ const search = (query) => {
 const findLyrics = async (query) => {
   query = query
     .toLowerCase()
-    .replace(new RegExp(/((\[|\()(?!.*?(remix|edit)).*?(\]|\))|\/+|-+| x |,|"|video oficial|five nights at freddy's (3|4) song| ft.?|\|+|yhlqmdlg|x100pre|prod. afro bros & jeon)/, 'g'), '')
+    .replace(new RegExp(/((\[|\()(?!.*?(remix|edit)).*?(\]|\))|\/+|-+| x |,|"|video oficial|clip officiel|official lyric video|five nights at freddy's (3|4) song| ft.?|\|+|yhlqmdlg|x100pre|prod. afro bros & jeon|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF]|\u274C)/, 'g'), '')
     .replace(new RegExp(/  +/, 'g'), ' ')
 
   if (!query || typeof query !== "string") return false;
