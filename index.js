@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const { load } = require("cheerio");
+const entities = require("entities");
 const delimiter1 = '</div></div></div></div><div class="hwc"><div class="BNeawe tAd8D AP7Wnd"><div><div class="BNeawe tAd8D AP7Wnd">';
 const delimiter2 = '</div></div></div></div></div><div><span class="hwc"><div class="BNeawe uEec3 AP7Wnd">';
 
@@ -24,7 +25,6 @@ const findLyrics = async (query) => {
     .toLowerCase()
     .replace(new RegExp(/((\[|\()(?!.*?(remix|edit)).*?(\]|\))|\/+|-+| x |,|"|video oficial|clip officiel|official lyric video|five nights at freddy's (3|4) song| ft.?|\|+|yhlqmdlg|x100pre|prod. afro bros & jeon|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF]|\u274C)/, 'g'), '')
     .replace(new RegExp(/  +/, 'g'), ' ')
-
   if (!query || typeof query !== "string") return false;
   const song = await search(query);
   if (song) {
@@ -67,8 +67,11 @@ const findLyrics = async (query) => {
   for (var i = 0; i < split.length; i++) {
     final = `${final}${split[i]}\n`;
   }
+
+  final = entities.decodeHTML(final);
+
   if (typeof final == 'undefined' || final.length < 5) return false;
-  return final.trim() || false; // Return false if no lyrics were found
+  return final.replace(new RegExp(/<span dir="rtl">|<\/span>/, 'g'), '').trim() || false;
 }
 
 module.exports = findLyrics;
