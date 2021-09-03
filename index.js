@@ -10,6 +10,7 @@ const reqOpt = {
   }
 }
 
+
 const search = (query) => {
   return new Promise((resolve, reject) => {
     fetch(`https://genius.com/api/search/song?q=${encodeURIComponent(query)}`, reqOpt)
@@ -21,17 +22,24 @@ const search = (query) => {
 }
 
 const findLyrics = async (query) => {
+  let lyrics = "";
+  let song = "";
   query = query
     .toLowerCase()
     .replace(new RegExp(/((\[|\()(?!.*?(remix|edit)).*?(\]|\))|\/+|-+| x |,|"|video oficial|clip officiel|official lyric video|five nights at freddy's (3|4) song| ft.?|\|+|yhlqmdlg|x100pre|prod. afro bros & jeon|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF]|\u274C)/, 'g'), '')
     .replace(new RegExp(/  +/, 'g'), ' ')
   if (!query || typeof query !== "string") return false;
-  const song = await search(query);
-  if (song) {
-    const html = await (await fetch(song.url, reqOpt)).text();
-    var lyrics = load(html)(".lyrics").text().trim();
-    if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) return lyrics;
+
+  for (let i = 0; i < 15; i++) {
+    song = await search(query);
+    if (song) {
+      const html = await (await fetch(song.url, reqOpt)).text();
+      lyrics = load(html)(".lyrics").text().trim();
+      if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) break;
+    } else {break}
   }
+
+  if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) return lyrics;
   try {
     lyrics = await fetch(`https://www.google.com/search?q=${encodeURIComponent(query)}+lyrics`);
     lyrics = await lyrics.textConverted();
