@@ -12,9 +12,15 @@ npm i @j0r6it0/lyricsfinder
 const findLyrics = require('@j0r6it0/lyricsfinder');
 
 
-const lyrics = await findLyrics("Alan Walker Alone");
+const lyrics = await findLyrics("Alan Walker Alone", { useGenius: true, useGoogle: true });
 
 if (lyrics == false) return console.log("Lyrics not found");
 
 console.log(lyrics);
+```
+## Options
+```
+geniusToken: Genius Api Access Token [Optional]
+useGenius: true/false [Optional] (Default: true)
+useGoogle: true/false [Optional] (Default: true)
 ```
