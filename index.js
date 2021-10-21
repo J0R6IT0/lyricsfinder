@@ -79,7 +79,8 @@ const findLyrics = async (query = '', { token = 'none', useGenius = true, useGoo
 				else {break;}
 			}
 		}
-		if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) return lyrics;
+
+		if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) return { lyrics: lyrics, title: song.title, artist: song.primary_artist.name, thumbnail: song.song_art_image_url };
 	}
 	if (useGoogle) {
 		try {
@@ -94,7 +95,7 @@ const findLyrics = async (query = '', { token = 'none', useGenius = true, useGoo
 		catch (e) {
 			lyrics = '';
 		}
-		if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) return lyrics;
+		if (lyrics && typeof lyrics !== 'undefined' && lyrics.length >= 5) return { lyrics: lyrics, title: undefined, artist: undefined, thumbnail: undefined };
 	}
 	return false;
 };

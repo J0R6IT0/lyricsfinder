@@ -16,7 +16,10 @@ const lyrics = await findLyrics("Alan Walker Alone", { useGenius: true, useGoogl
 
 if (lyrics == false) return console.log("Lyrics not found");
 
-console.log(lyrics);
+console.log(lyrics.lyrics);
+console.log(lyrics.artist); // Only available when getting the song from Genius, otherwise returns undefined
+console.log(lyrics.title); // Only available when getting the song from Genius, otherwise returns undefined
+console.log(lyrics.thumbnail); // Only available when getting the song from Genius, otherwise returns undefined
 ```
 ## Options
 ```
