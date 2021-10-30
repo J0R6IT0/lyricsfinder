@@ -13,7 +13,7 @@ const reqOpt = {
 const searchGenius = (query) => {
 	return new Promise((resolve, reject) => {
 		fetch(`https://genius.com/api/search/song?q=${encodeURIComponent(query)}`, reqOpt)
-			.then(res => res.json())
+			.then(res => res.json().catch(e => {return console.log(e);}))
 			.then(body => body.response.sections[0].hits.length ? body.response.sections[0].hits[0].result : undefined)
 			.then(resolve)
 			.catch(reject);
@@ -23,7 +23,7 @@ const searchGenius = (query) => {
 const searchGeniusToken = (query, token) => {
 	return new Promise((resolve, reject) => {
 		fetch(`https://api.genius.com/search?q=${encodeURIComponent(query)}&access_token=${token}`, reqOpt)
-			.then(res => res.json())
+			.then(res => res.json().catch(e => {return console.log(e);}))
 			.then(body => body.response.hits.length ? body.response.hits[0].result : undefined)
 			.then(resolve)
 			.catch(reject);
@@ -49,11 +49,11 @@ const findLyrics = async (query = '', { token = 'none', useGenius = true, useGoo
 		.trim();
 
 	if (!query) {
-		console.error('ERROR: Query cannot be empty.');
+		console.error('ERROR: No song title provided.');
 		return false;
 	}
 	if (typeof query !== 'string') {
-		console.error('ERROR: Query must be a string.');
+		console.error('ERROR: Song title must be a string.');
 		return false;
 	}
 	if (useGenius) {
